@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Family Tree</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Open+Sans:wght@400&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #f8f4e3, #fff);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Title and Logo */
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: #9b111e;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.8em;
+            margin: 0;
+        }
+
+        .header img {
+            width: 250px;
+            border-radius: 50%;
+            margin-top: 10px;
+        }
+
+        /* Translate Button */
+        .translate-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #9b111e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .translate-button:hover {
+            background: #d4af37;
+            transform: scale(1.1);
+        }
+
+        /* Ancestor Grid */
+        .tree-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            animation: slideIn 1s ease-out;
+        }
+
+        .ancestor {
+            text-align: center;
+            background: #fdfdfd;
+            border: 2px solid #9b111e;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .ancestor:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            background: #f8f4e3;
+        }
+
+        /* History Section */
+        .history-section {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .history-section h2 {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            color: #9b111e;
+            margin-bottom: 15px;
+        }
+
+        .history-section p {
+            font-size: 1.1em;
+            line-height: 1.6em;
+            color: #555;
+            text-align: justify;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #9b111e;
+            color: #fff;
+            font-size: 1em;
+        }
+
+        footer a {
+            color: #d4af37;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2em;
+            }
+
+            .ancestor {
+                font-size: 1em;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <img src="lllogo.png" alt="Logo">
+        <h1>Royal Family Tree</h1>
+    </div>
+
+    <!-- Translation Button -->
+    <button class="translate-button" id="translateButton">Translate</button>
+
+    <!-- Tree Container -->
+    <div class="tree-container">
+        <div class="grid" id="treeGrid"></div>
+    </div>
+
+    <!-- History Section -->
+    <div class="history-section" id="historySection">
+        <h2>History of Dhandhal Rathore</h2>
+        <p>Dhandhal Rathore was a prominent figure in the royal lineage of Rajasthan. Known for his leadership, valor, and contributions, he upheld the traditions of the Rathore dynasty. His legacy continues through his descendants, who have shaped the region’s culture and history for generations.</p>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>© 2024 Royal Family Tree | <a href="history.html">Read More History</a></p>
+    </footer>
+
+    <script>
+        const ancestors = [
+            { hindi: "सूर्य", english: "Surya" },
+            { hindi: "वैवस्वत मनु", english: "Vaivasvat Manu" },
+            { hindi: "इक्ष्वाकु", english: "Ikshvaku" },
+            { hindi: "विकुक्षी", english: "Vikukshi" },
+            { hindi: "मंधाता", english: "Mandhata" },
+            { hindi: "सत्यव्रत (त्रिशंकु)", english: "Satyavrata (Trishanku)" },
+            { hindi: "हरिश्चंद्र", english: "Harishchandra" },
+            { hindi: "रोहितास्व", english: "Rohitaswa" },
+            { hindi: "सगर", english: "Sagara" },
+            { hindi: "भगीरथ", english: "Bhagiratha" },
+            { hindi: "दिलीपा", english: "Dilipa" },
+            { hindi: "रघु", english: "Raghu" },
+            { hindi: "अजा", english: "Aja" },
+            { hindi: "दशरथ", english: "Dasharatha" },
+            { hindi: "श्री राम", english: "Shri Rama" },
+            { hindi: "लव", english: "Lava" },
+            { hindi: "कुशा", english: "Kusha" },
+            { hindi: "अतिथि", english: "Atithi" },
+            { hindi: "निषध", english: "Nishadha" },
+            { hindi: "नाले", english: "Nala" },
+            { hindi: "नाभागा", english: "Nabhaga" },
+            { hindi: "अंबरीशा", english: "Ambarisha" },
+            { hindi: "कनकसेन", english: "Kanakasena" },
+            { hindi: "राजा हर्षवर्द्धन", english: "Raja Harshavardhana" },
+            { hindi: "जयचंद राठौड़", english: "Jaichand Rathore" },
+            { hindi: "राव सियाजी", english: "Rao Siyaji" },
+            { hindi: "राव अस्थानजी", english: "Rao Asthanji" },
+            { hindi: "राव चूंडा", english: "Rao Chunda" },
+            { hindi: "राव रिड़मलजी", english: "Rao Ridmalji" },
+            { hindi: "राव जोधा", english: "Rao Jodha" },
+            { hindi: "धांधल राठौड़", english: "Dhandhal Rathore" },
+            { hindi: "बुडोजी", english: "Budhoji" },
+            { hindi: "भूपतजी", english: "Bhoopatji" },
+            { hindi: "केसराजी", english: "Kesaraji" },
+            { hindi: "चंदा जी", english: "Chandaji" },
+            { hindi: "मालाजी", english: "Malaji" },
+            { hindi: "हरिसिंहजी", english: "Harisinghji" },
+            { hindi: "केसराजजी", english: "Kesarajji" },
+            { hindi: "सरदारसिंहजी", english: "Sardar Singhji" },
+            { hindi: "रामसिंहजी", english: "Ramsinghji" },
+            { hindi: "शिवसिंह जी", english: "Shiv Singhji" },
+            { hindi: "राजसिंहजी", english: "Raj Singhji" },
+            { hindi: "मानसिंहजी", english: "Mansinghji" },
+            { hindi: "देवसिंहजी", english: "Devsinghji" },
+            { hindi: "कांजी", english: "Kanji" },
+            { hindi: "सुरसिंहजी", english: "Sur Singhji" },
+            { hindi: "अर्जनसिंहजी", english: "Arjan Singhji" },
+            { hindi: "खगराजसिंहजी", english: "Khagaraj Singhji" },
+            { hindi: "जोधासिंहजी", english: "Jodha Singhji" },
+            { hindi: "भेरूसिंहजी", english: "Bheru Singhji" },
+            { hindi: "देवसिंहजी", english: "Dev Singhji" },
+            { hindi: "ननजी", english: "Nanji" },
+            { hindi: "मावजी", english: "Mavji" },
+            { hindi: "किशोरसिंहजी", english: "Kishor Singhji" },
+            { hindi: "दीपकसिंहजी", english: "Deepak Singhji" },
+            { hindi: "जयराजसिंह", english: "Jayraj Singh" }
+        ];
+
+        const treeGrid = document.getElementById("treeGrid");
+        let showHindi = true;
+
+        function generateAncestors() {
+            treeGrid.innerHTML = '';
+            ancestors.forEach(({ hindi, english }, index) => {
+                const ancestorDiv = document.createElement("div");
+                ancestorDiv.className = "ancestor";
+                ancestorDiv.textContent = showHindi ? hindi : english;
+                ancestorDiv.style.animationDelay = `${index * 0.1}s`;
+                treeGrid.appendChild(ancestorDiv);
+            });
+        }
+
+        document.getElementById("translateButton").addEventListener("click", () => {
+            showHindi = !showHindi;
+            generateAncestors();
+        });
+
+        window.onload = generateAncestors;
+    </script>
+</body>
+</html>
